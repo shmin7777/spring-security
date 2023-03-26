@@ -15,11 +15,8 @@ Spring Security 는 default로 헤더에  Cache-Control 를 추가하고,  no-ca
 
 Spring Security 또한 이러한 추세에 맞춰 default 로 Cache-Control 에 옵션을 추가하지 않았나 추측합니다.
 
-따라서 이제 Spring에서는 csrf 공격에 대비하기 위하여 csrf 토큰을 만들필요가 없습니다. 
-
- 
-
-즉, 저처럼 머리아프게 고민하지마시고 WebSecurityConfig 를 설정하실 때 csrf().disable() 을 해주시면 됩니다.
-
 https://developer-ping9.tistory.com/234    
 https://velog.io/@woohobi/Spring-security-csrf%EB%9E%80  
+
+## chat gpt
+![image](https://user-images.githubusercontent.com/67637716/227780959-c6de48a2-085d-4e63-aa2d-0bcd2b4c49af.png)  
