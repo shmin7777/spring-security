@@ -20,3 +20,4 @@ https://velog.io/@woohobi/Spring-security-csrf%EB%9E%80
 
 ## chat gpt
 ![image](https://user-images.githubusercontent.com/67637716/227780959-c6de48a2-085d-4e63-aa2d-0bcd2b4c49af.png)  
+![image](https://user-images.githubusercontent.com/67637716/227780974-0eb3a467-750f-4973-acea-964638e3991f.png)  
