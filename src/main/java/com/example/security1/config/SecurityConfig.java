@@ -28,7 +28,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .loginPage("/loginForm") // 권한이 없는 페이지에 요청이 들어갈 때 login페이지로 이동(redirect /login)
-                ;
+                .loginProcessingUrl("/login") // login 주소가 호출이 되면 시큐리티가 낚아 채서 대신 로그인을 진행해줌. 따라서 controller에서 /login 을 안만들어도 됨
+                .defaultSuccessUrl("/");
     }
 
     @Bean

@@ -55,6 +55,12 @@ public class IndexController {
         return "joinForm";
     }
 
+    @PostMapping("/login")
+    public String login() {
+        // 회원가입 페이지
+        return "joinForm";
+    }
+
     @PostMapping("/join")
     public String join(User user) {
         // 실제 회원가입
