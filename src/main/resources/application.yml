@@ -15,7 +15,7 @@ spring:
     password: cos1234
   jpa:
     hibernate:
-      ddl-auto: create # table ?? drop ? create
+      ddl-auto: update # table ?? drop ? create
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     show-sql: true
