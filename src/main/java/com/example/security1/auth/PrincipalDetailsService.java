@@ -22,6 +22,7 @@ public class PrincipalDetailsService implements UserDetailsService {
     private UserRepository userRepository;
 
     // security session(내부 Authentication(내부 UserDetails))로 들어감
+    // 함수 종료시 @AuthenticationPrincipal 어노테이션이 만들어진다.
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         // input tag의 name과 동일해야한다!!!!
