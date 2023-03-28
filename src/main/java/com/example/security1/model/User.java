@@ -12,8 +12,6 @@ import java.sql.Timestamp;
 @Entity
 @Data
 //@Getter
-//@Builder
-//@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 //@ToString
 public class User {
@@ -30,4 +28,15 @@ public class User {
     @CreationTimestamp // insert 시점에 자동으로 현재 시간을 값으로 채워서 쿼리 생성
     private Timestamp createDate;
 
+    @Builder
+    private User(int id, String username, String password, String email, String role, String provider, String providerId, Timestamp createDate) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.role = role;
+        this.provider = provider;
+        this.providerId = providerId;
+        this.createDate = createDate;
+    }
 }

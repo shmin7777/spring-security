@@ -19,16 +19,24 @@ import java.util.Map;
 
 
 // Security Session => Authenication => UserDeatails(PrincipalDetails)
-@RequiredArgsConstructor
 @Data
 public class PrincipalDetails implements UserDetails, OAuth2User {
 
     private final User user;
+    private Map<String, Object> attributes;
 
-    @Override
-    public Map<String, Object> getAttributes() {
-        return null;
+
+    // 일발 로그인
+    public PrincipalDetails(User user) {
+        this.user = user;
     }
+
+    // OAuth 로그인
+    public PrincipalDetails(User user, Map<String, Object> attributes) {
+        this.user = user;
+        this.attributes = attributes;
+    }
+
 
     // 해당 User의 권한을 return하는 곳
     @Override
@@ -83,7 +91,12 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
     }
 
     @Override
+    public Map<String, Object> getAttributes() {
+        return attributes;
+    }
+
+    @Override
     public String getName() {
         return null;
-    }
+    } // 중요하지 않음
 }
