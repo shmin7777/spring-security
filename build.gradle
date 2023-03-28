@@ -32,6 +32,11 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
+	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-oauth2-client
+	// oauth의 access token을 받기 위한 redirect url을 낚아 채줌(getMapping등으로 만들 필요 없음)
+	// redirect url : /login/oauth2/code/${google|kakao|naver}
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client' // login
+
 }
 
 tasks.named('test') {

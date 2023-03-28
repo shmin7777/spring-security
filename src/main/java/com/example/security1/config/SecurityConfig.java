@@ -32,7 +32,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/loginForm") // 권한이 없는 페이지에 요청이 들어갈 때 login페이지로 이동(redirect /login)
 //                .usernameParameter("id")
                 .loginProcessingUrl("/login") // login 주소가 호출이 되면 시큐리티가 낚아 채서 대신 로그인을 진행해줌. 따라서 controller에서 /login 을 안만들어도 됨
-                .defaultSuccessUrl("/"); // loginForm로와서 login을하면 /로 보내 줄텐데, 특정 페이지에서 로그인을 하면 그 주소로 바로 보내줌
+                .defaultSuccessUrl("/") // loginForm로와서 login을하면 /로 보내 줄텐데, 특정 페이지에서 로그인을 하면 그 주소로 바로 보내줌
+                .and()
+                .oauth2Login(); // oauth2 client 를 쓰면 로그인창이 /oauth2/authorization/google 고정인데, 404가 뜬다. 그래서 이처럼 해줘야함
+//                .loginPage("/loginForm"); // 구글 로그인이 완료된 뒤의 후처리가 필요함.
     }
 
     @Bean
