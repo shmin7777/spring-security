@@ -1,5 +1,6 @@
 package com.example.security1.controller;
 
+import com.example.security1.auth.PrincipalDetails;
 import com.example.security1.model.User;
 import com.example.security1.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -7,7 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +26,32 @@ public class IndexController {
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+
+    // @AuthenticationPrincipal 을 통해서 session정보에 접근을 할 수 있다. PrincipalDetails으로 다운 캐스팅
+    // Authentication를 DI를 받아서 getUser을 할 수도 있고, @AuthenticationPrincipal을 통해서 UserDetails정보에 접근할 수 있다.
+    // Session 내부에 Security Session 이 있고 security session 안엔 Authentication객체만 들어올 수 있다.
+    // Authentication에는 두가지 타입을 가질 수 있다.
+    // 1. UserDetails : 일반 로그인, @AuthenticationPrincipal UserDetails userDetails
+    // 2. OAuth2User : OAuth 로그인, @AuthenticationPrincipal OAuth2User oAuth2User
+    @GetMapping("/test/login")
+    @ResponseBody
+    public String loginTest(Authentication authentication, @AuthenticationPrincipal PrincipalDetails userDetails) { // DI
+        PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
+        log.info("/test/login authentication ===================== {}", principal.getUser());
+        log.info("userDetails:: {} ", userDetails.getUser());
+        return "세션 정보 확인하기";
+    }
+
+    // DefaultOAuth2User cannot be cast to class com.example.security1.auth.PrincipalDetails
+    @GetMapping("/test/oauth/login")
+    @ResponseBody
+    public String testOAuthLogin(Authentication authentication, @AuthenticationPrincipal OAuth2User oAuth2User) { // DI
+        OAuth2User principal = (OAuth2User) authentication.getPrincipal();
+        log.info("/test/oauth/login authentication ===================== {}", principal.getAttributes());
+        log.info("oAuth2User::: {} ", oAuth2User.getAttributes());
+        return "OAuth 세션 정보 확인하기";
+    }
 
     @GetMapping({"", "/"})
     public String index() {
@@ -87,7 +118,7 @@ public class IndexController {
         return "개인정보";
     }
 
-//    @PostAuthorize() // 함수가 끝나고 난뒤.
+    //    @PostAuthorize() // 함수가 끝나고 난뒤.
     @PreAuthorize("hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')") // data라는 메서드가 실행되기 진전에 실행
     @ResponseBody
     @GetMapping("/data")

@@ -24,6 +24,9 @@ public class User {
     private String password;
     private String email;
     private String role; // ROLE_USER, ROLE_ADMIN
+
+    private String provider; // google
+    private String providerId; // google_id
     @CreationTimestamp // insert 시점에 자동으로 현재 시간을 값으로 채워서 쿼리 생성
     private Timestamp createDate;
 
