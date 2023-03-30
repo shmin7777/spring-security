@@ -1,6 +1,10 @@
 package com.example.security1.oauth;
 
 import com.example.security1.auth.PrincipalDetails;
+import com.example.security1.auth.provider.FacebookUserInfo;
+import com.example.security1.auth.provider.GoogleUserInfo;
+import com.example.security1.auth.provider.NaverUserInfo;
+import com.example.security1.auth.provider.OAuth2UserInfo;
 import com.example.security1.model.User;
 import com.example.security1.repository.UserRepository;
 import com.example.security1.utils.EncodeUtils;
@@ -39,15 +43,32 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         log.info("getAttribute :: {}", attributes);
 
         // attributes(User 정보) 를 가지고 UserEntity를 만든 후 강제로 회원가입 시킨다.
-        String provider = userRequest.getClientRegistration().getClientId(); // google
-        String providerId = oAuth2User.getAttribute("sub");
+        OAuth2UserInfo oAuth2UserInfo = null;
+        if ("google".equals(userRequest.getClientRegistration().getRegistrationId())) {
+            log.info("google 로그인 요청");
+            oAuth2UserInfo = new GoogleUserInfo(attributes);
+        } else if ("facebook".equals(userRequest.getClientRegistration().getRegistrationId())) {
+            log.info("facebook 로그인 요청");
+            oAuth2UserInfo = new FacebookUserInfo(attributes);
+        } else if ("naver".equals(userRequest.getClientRegistration().getRegistrationId())) {
+            log.info("naver 로그인 요청");
+            oAuth2UserInfo = new NaverUserInfo((Map) attributes.get("response"));
+        } else {
+            log.info("우리는 구글과 페이스북과 네이버만 지원해요");
+        }
+        // provider를 사용
+        String provider = oAuth2UserInfo.getProvider();
+        String providerId = oAuth2UserInfo.getProviderId();  // google login : sub, facebook login : id
         String username = provider + "_" + providerId;
         String email = oAuth2User.getAttribute("email");
         String password = EncodeUtils.bcryptEncode("홍쓰");// 크게 의미 없는 정보
         String role = "ROLE_USER";
+//        String provider = userRequest.getClientRegistration().getRegistrationId(); // google
+//        String providerId = oAuth2User.getAttribute("sub"); // google login : sub, facebook login : id
 
         Optional<User> optUser = userRepository.findByUsername(username);
         User user = optUser.orElseGet(() -> {
+            log.info("oauth 로그인이 최초입니다.");
             User tmpUser = User.builder()
                     .username(username)
                     .password(password)
