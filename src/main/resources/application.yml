@@ -10,9 +10,9 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/security?serverTimezone=Asia/Seoul
-    username: cos
-    password: cos1234
+    url: 
+    username: 
+    password: 
   jpa:
     hibernate:
       ddl-auto: update # table ?? drop ? create
@@ -25,20 +25,20 @@ spring:
       client:
         registration:
           google:
-            client-id: 925329001522-7t3962d4hvhak466kc8vstb54s834oa8.apps.googleusercontent.com
-            client-secret: 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
+            client-id: 
+            client-secret:
             scope:
               - email
               - profile
           facebook:
-            client-id: 1011961263520673
-            client-secret: 772a45a89d5b45d48bd95653581e6f96
+            client-id: 
+            client-secret: 
             scope:
               - email
               - public_profile # facebook 문서에서 확인
           naver: # OAuth2 client가 들고있는 provider가 아님 , provider id must be specified for client registration 'naver'
-            client-id: OwxqgCgFRJl6hlYDkp0J
-            client-secret: 6Yv2x0Yieq
+            client-id: 
+            client-secret: 
             scope:
               - name
               - email
